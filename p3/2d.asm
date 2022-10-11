@@ -15,7 +15,7 @@ str2:	.asciiz "\nO valor em binario e': "
 			
 main:	
 	li	$t2, 0				#i = 0
-
+	li	$t4, 0
 	li	$v0, print_string		
 	la	$a0, str1
 	syscall					#print string valor?
@@ -30,30 +30,15 @@ main:
 	
 for:	bge	$t2, 32, endfor
 	#andi	$t1, $t0, 0x80000000
-	srl	$t1, $t0, 31
+	srl	$t1, $t0, 31	
+	beq	$t1, 0, then
+	bne	$t1, 1, then	
+	
+	
+	
 	rem	$t3, $t2, 4
-	beq 	$t3, $0, resto
-	
-if:	beq	$t1, 0, else
-	addi	$t1, $t1, 0x31
-	move	$a0, $t1
-	li	$a0, '1'
-	li	$v0, print_char
-	syscall
 
-else:	addi	$t1, $t1, 0x30
-	move	$a0, $t1
-	li	$v0, print_char
-	li	$a0, '0'
-	syscall
-	sll	$t0, $t0, 1
-	addi	$t2, $t2, 1
-	j	for
-	
-resto:	li	$v0, print_char
-	li	$a0 ' '
-	syscall
-	j	if
+
 
 
 endfor:
